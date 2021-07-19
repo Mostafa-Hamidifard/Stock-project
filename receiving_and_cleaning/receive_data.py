@@ -11,6 +11,8 @@ async def _download_csv(url, id):
 
 
 async def _write_to_file(path, name, format, content):
+    if(os.path.exists(path) == 0):
+        os.makedirs(path)
     filename = os.path.join(path, f"{name}.{format}")
     with open(filename, "wb") as pep_file:
         pep_file.write(content)

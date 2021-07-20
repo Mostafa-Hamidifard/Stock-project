@@ -9,5 +9,5 @@ class Indicator(ABC):
         self.raw_data = raw_data
 
     @abstractmethod
-    def plot(self, axes):
+    def plot(self):
         pass

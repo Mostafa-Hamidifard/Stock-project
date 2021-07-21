@@ -4,20 +4,30 @@ from numpy import linalg
 from matplotlib import pyplot as plt
 
 
-def detect_trend(raw_data, fromthis, price_type="<CLOSE>", reverse=True):
+def moving_average(x, w):
+    return np.convolve(x, np.ones(w), 'valid') / w
+
+
+def detect_trend(raw_data, fromthis, tothis=-1, end=False, price_type="<CLOSE>", reverse=True):
     '''
     inputs: raw_data as data frame (set reverse=false if you have reversed it before)
             fromthis -> from this position untill end (usually negative)
             price_type='<CLOSE>'
     returns : detection(as string), m(slope), c(constant)
     '''
-    price = np.flipud(raw_data[price_type].values)[fromthis:100]
+    if end:
+        price = np.flipud(raw_data[price_type].values)[fromthis:]
+        length = len(raw_data) - fromthis
+    else:
+        price = np.flipud(raw_data[price_type].values)[fromthis:tothis]
+        length = tothis - fromthis
+    if length > 40:
+        price = moving_average(price, 20)
     x_axis = np.linspace(0, 1, price.size)
     price = price - np.min(price)
     price = price/np.max(price)
-    # print(price)
     A = np.vstack([x_axis, np.ones(len(x_axis))]).T
-    m, c = np.linalg.lstsq(A, price, rcond=None)[0]
+    m, c = linalg.lstsq(A, price, rcond=None)[0]
     ref = np.tan(20 * np.pi/180)
     if(m > ref):
         return "Ascending", m, c
@@ -30,11 +40,11 @@ def detect_trend(raw_data, fromthis, price_type="<CLOSE>", reverse=True):
 if __name__ == '__main__':
     df = pd.read_csv(
         "E:\\ap_final\\Stock-project\\CSV raw data\\2400322364771558.csv")
-    price = np.flipud(df["<CLOSE>"].values)[70:100]
+    price = np.flipud(df["<CLOSE>"].values)[40:70]
     x_axis = np.linspace(0, 1, price.size)
     price = price - np.min(price)
     price = price/np.max(price)
-    detection, m, c = detect_trend(df, 70)
+    detection, m, c = detect_trend(df, 40, 70)
     y = m*x_axis + c
     print(detection)
     plt.plot(x_axis, y)

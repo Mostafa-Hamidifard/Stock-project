@@ -9,8 +9,8 @@ class MovingAverage(Indicator):
     def __init__(self, raw_data, rate, price_type="<LAST>"):
         Indicator.__init__(self, raw_data[price_type].values)
         self.name = str(raw_data["<TICKER>"][0])
-        self.ma = self._calculate_mvaverage(rate)
         self.rate = rate
+        self.ma = self._calculate_mvaverage()
 
     def _calculate_mvaverage(self):
         mv_ave = np.convolve(self.raw_data, np.ones(

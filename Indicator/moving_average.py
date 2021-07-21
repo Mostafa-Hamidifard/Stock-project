@@ -12,9 +12,12 @@ class MovingAverage(Indicator):
         self.ma = self._calculate_mvaverage(rate)
         self.rate = rate
 
-    def _calculate_mvaverage(self, rate):
-        mv_ave = np.convolve(self.raw_data, np.ones(rate), 'valid') / rate
-        return np.concatenate((np.ones(rate-1)/0, mv_ave), axis=0)
+    def _calculate_mvaverage(self):
+        mv_ave = np.convolve(self.raw_data, np.ones(
+            self.rate), 'valid') / self.rate
+        a = np.empty(self.rate-1)
+        a[:] = np.NaN
+        return np.concatenate((a, mv_ave), axis=0)
 
     def plot(self, ax):
         ax.set_title(self.name, fontsize=7)
@@ -29,10 +32,11 @@ if __name__ == "__main__":
     df = pd.read_csv(
         "E:\\ap_final\\Stock-project\\CSV raw data\\2400322364771558.csv")
     # data = np.array([10, 5, 8, 9, 15, 22, 26, 11, 15, 16, 18, 7])
-    mv = MovingAverage(df[::-1], 4)
+    df = df[::-1]
+    mv = MovingAverage(df, 4)
     fig = plt.figure(1, figsize=(6, 4), dpi=150, edgecolor='k')
     ax1 = fig.add_axes([0.1, 0.1, 0.8, 0.8])
-    mv1 = MovingAverage(df[::-1], 30)
+    mv1 = MovingAverage(df, 30)
     mv1.plot(ax1)
     mv.plot(ax1)
     ax1.grid()

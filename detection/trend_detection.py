@@ -8,18 +8,18 @@ def moving_average(x, w):
     return np.convolve(x, np.ones(w), 'valid') / w
 
 
-def detect_trend(raw_data, fromthis, tothis=-1, end=False, price_type="<CLOSE>", reverse=True):
+def detect_trend(raw_data, fromthis, tothis=-1, end=False, price_type="<LAST>"):
     '''
-    inputs: raw_data as data frame (set reverse=false if you have reversed it before)
+    inputs: raw_data as data frame
             fromthis -> from this position untill end (usually negative)
             price_type='<CLOSE>'
     returns : detection(as string), m(slope), c(constant)
     '''
     if end:
-        price = np.flipud(raw_data[price_type].values)[fromthis:]
+        price = raw_data[price_type].values[fromthis:]
         length = len(raw_data) - fromthis
     else:
-        price = np.flipud(raw_data[price_type].values)[fromthis:tothis]
+        price = raw_data[price_type].values[fromthis:tothis]
         length = tothis - fromthis
     if length > 40:
         price = moving_average(price, 20)
@@ -40,11 +40,12 @@ def detect_trend(raw_data, fromthis, tothis=-1, end=False, price_type="<CLOSE>",
 if __name__ == '__main__':
     df = pd.read_csv(
         "E:\\ap_final\\Stock-project\\CSV raw data\\2400322364771558.csv")
-    price = np.flipud(df["<CLOSE>"].values)[40:70]
+    df = df[::-1]
+    price = df["<CLOSE>"].values[40:150]
     x_axis = np.linspace(0, 1, price.size)
     price = price - np.min(price)
     price = price/np.max(price)
-    detection, m, c = detect_trend(df, 40, 70)
+    detection, m, c = detect_trend(df, 40, 150)
     y = m*x_axis + c
     print(detection)
     plt.plot(x_axis, y)

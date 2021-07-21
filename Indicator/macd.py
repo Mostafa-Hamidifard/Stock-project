@@ -18,10 +18,10 @@ def EMA(x, days, smoothing=2):
 class MACD(Indicator):
     '''be aware, this class assumes that data is in reverse order, so it tries to reverse it again to make it in right order'''
 
-    def __init__(self, raw_data, price_type="<CLOSE>", slow=26, fast=12, smooth=9):
+    def __init__(self, raw_data, price_type="<LAST>", slow=26, fast=12, smooth=9):
         Indicator.__init__(self, raw_data)
         # processing data and computing macd line and signal line and histogram line
-        self.name = str(raw_data["<TICKER>"][0])
+        self.name = raw_data["<TICKER>"][0]
         input = np.flipud(raw_data[price_type].values)
         self.macd_line = EMA(input, fast) - \
             EMA(input, slow)
@@ -39,7 +39,6 @@ class MACD(Indicator):
                         self.histogram.size), self.histogram, 0, where=self.histogram >= 0, facecolor='cyan')
         ax.fill_between(np.linspace(1, self.histogram.size,
                         self.histogram.size), self.histogram, 0, where=self.histogram < 0, facecolor='#c3015c')
-        ax.grid()
         ax.xaxis.set_tick_params(labelsize='xx-small')
         ax.yaxis.set_tick_params(labelsize='xx-small')
 
@@ -50,7 +49,7 @@ if __name__ == '__main__':
 
     # sample code
     macd = MACD(df)
-    fig = plt.figure(1, figsize=(5, 3), dpi=200, edgecolor='k')
+    fig = plt.figure(1, figsize=(5, 3), dpi=150, edgecolor='k')
     ax1 = fig.add_axes([0.125, 0.125, 0.8, 0.8])
     macd.plot(ax1)
     plt.show()

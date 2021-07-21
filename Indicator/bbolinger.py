@@ -49,7 +49,6 @@ class BBolinger(Indicator):
         lin1, = ax.plot(self.sma, linewidth=1, color='red', alpha=0.5)
         lin1.set_label(f"BB's SMA ({self.rate} days)")
         ax.legend(fontsize='xx-small')
-        ax.plot(self.price)
         ax.fill_between(
             np.linspace(0, self.bollinger_up.size, self.bollinger_up.size),
             self.bollinger_down,

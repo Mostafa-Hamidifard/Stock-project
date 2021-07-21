@@ -20,15 +20,19 @@ class PlotWindow(Form1, QMainWindow):
         self.setupUi(self)
         self.csv_path = csv_path
 
-        self.combo_box.currentTextChanged.connect(self.combobox_changed)
+        self.combobox_companyname.currentTextChanged.connect(self.combobox_companyname_changed)
+        self.combobox_typeName.currentTextChanged.connect(self.combobox_typename_changed)
 
-        # company_names = get_company_names(self.csv_path)
         inst = ExtractCompaniesFeatures(self.csv_path)
         company_names = inst.get_company_names()
+        company_typename = ["<FIRST>","<HIGH>","<LOW>","<CLOSE>","<VALUE>","<VOL>","<OPENINT>","<PER>","<OPEN>","<LAST>"]
 
 
         for name in company_names:
-            self.combo_box.addItem(name)
+            self.combobox_companyname.addItem(name)
+        
+        for typename in company_typename:
+            self.combobox_typeName.addItem(typename)
         
 
         self.fig = Figure()
@@ -42,5 +46,8 @@ class PlotWindow(Form1, QMainWindow):
         self.fig.canvas.draw()
         
 
-    def combobox_changed(self, str):
+    def combobox_companyname_changed(self, str):
+        print(str)
+    
+    def combobox_typename_changed(self, str):
         print(str)

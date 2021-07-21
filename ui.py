@@ -14,10 +14,13 @@ class UI:
         # plot window
         self.plot_window = PlotWindow(csv_path=self.store_path)
 
+        
         # start window
         self.start_window = StartWindow(self.input_path, self.store_path)
         self.start_window.finished.connect(self.goto_plot)
         self.start_window.show()
+
+        
 
         sys.exit(self.app.exec_())
 

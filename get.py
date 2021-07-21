@@ -45,11 +45,9 @@ class ExtractCompaniesFeatures:
 
 
 if __name__ == '__main__':
+    pass
     # rd.start_downloading_data_and_store(
     #     "stocks.txt", store_path=os.path.join(os.getcwd(), "CSV raw data"))
     # getDataName(os.path.join(os.getcwd(), "CSV raw data"))
-    inst = ExtractCompaniesFeatures(os.path.join(os.getcwd(), "CSV raw data"))
-    # print(inst.get_company_names())
-    print(inst.get_row_price('G.Barekat.Pharm')[0])
-
-
+    # inst = ExtractCompaniesFeatures(os.path.join(os.getcwd(), "CSV raw data"))
+    # print(inst.get_row_price('G.Barekat.Pharm')[0])

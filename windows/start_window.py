@@ -95,11 +95,6 @@ class StartWindow(Form2, QMainWindow):
         if res == "OK":
             self.finished.emit()
         else:
-            # alert = QMessageBox()
-            # alert.setStyleSheet("QMessageBox{background-color: #c4ff4d; border: 4px solid #1a6600; border-radius: 5px;} QPushButton{background-color: red; }")
-            # alert.setText("Connection faild")
-            # alert.setInformativeText("Plead try again")
-            # alert.exec()
             QMessageBox.critical(self, "ERROR", "Please check your network connection and stock IDs")
             self.start.setEnabled(True)
             self.start.setText("Try Again")

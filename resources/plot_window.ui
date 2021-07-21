@@ -31,30 +31,30 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QCheckBox" name="checkBox_4">
+          <widget class="QCheckBox" name="movingaverage_checkbox">
            <property name="text">
-            <string>CheckBox</string>
+            <string>movingaverage</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="checkBox_3">
+          <widget class="QCheckBox" name="macd_checkbox">
            <property name="text">
-            <string>CheckBox</string>
+            <string>macd</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="checkBox_2">
+          <widget class="QCheckBox" name="bb_checkbox">
            <property name="text">
-            <string>CheckBox</string>
+            <string>bb</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="checkBox">
+          <widget class="QCheckBox" name="simple_checkbox">
            <property name="text">
-            <string>CheckBox</string>
+            <string>simple</string>
            </property>
           </widget>
          </item>

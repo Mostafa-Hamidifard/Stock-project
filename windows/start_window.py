@@ -1,7 +1,7 @@
 import os
 import sys
 import time
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QHBoxLayout
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QHBoxLayout, QMessageBox
 from PyQt5.QtCore import QTimer, QThread, QObject, pyqtSignal
 from PyQt5 import uic
 
@@ -9,7 +9,7 @@ from receiving_and_cleaning.receive_data import start_downloading_data_and_store
 
 
 class Worker(QObject):
-    finished = pyqtSignal()
+    finished = pyqtSignal(str)
 
     def __init__(self, input_file_path, store_file_path):
         QObject.__init__(self)
@@ -17,8 +17,14 @@ class Worker(QObject):
         self.store_file_path = store_file_path
 
     def run(self):
-        start_downloading_data_and_store(self.input_file_path, self.store_file_path)
-        self.finished.emit()
+        try:
+            start_downloading_data_and_store(self.input_file_path, self.store_file_path)
+            self.finished.emit("OK")
+        
+        except:
+            self.finished.emit("ERROR")
+           
+        
 
 
 Form2 = uic.loadUiType(os.path.join(os.getcwd(), 'resources', 'start_window.ui'))[0]
@@ -44,7 +50,7 @@ class StartWindow(Form2, QMainWindow):
         self.worker.finished.connect(self.thread.quit)
         self.worker.finished.connect(self.worker.deleteLater)
         self.thread.finished.connect(self.thread.deleteLater)
-        self.thread.finished.connect(self.finished_download)
+        self.worker.finished.connect(self.finished_download)
 
     def start_clicked(self):
         self.progress_timer.start(10)
@@ -56,6 +62,14 @@ class StartWindow(Form2, QMainWindow):
             a = 0
         self.progress_bar.setValue(a)
 
-    def finished_download(self):
+    def finished_download(self, res):
         self.progress_timer.stop()
-        self.finished.emit()
+
+        if res == "OK":
+            self.finished.emit()
+        else:
+            alert = QMessageBox()
+            alert.setText("Connection faild")
+            alert.setInformativeText("Plead try again")
+            alert.exec()
+            self.close()

@@ -11,10 +11,9 @@ class UI:
         self.input_path = input_path
         self.store_path = store_path
 
-        # plot window
-        self.plot_window = PlotWindow(csv_path=self.store_path)
-
         
+
+
         # start window
         self.start_window = StartWindow(self.input_path, self.store_path)
         self.start_window.finished.connect(self.goto_plot)
@@ -26,6 +25,8 @@ class UI:
 
     def goto_plot(self):
         self.start_window.close()
+        # plot window
+        self.plot_window = PlotWindow(csv_path=self.store_path)
         self.plot_window.show()
 
 

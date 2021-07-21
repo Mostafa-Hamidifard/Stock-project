@@ -6,16 +6,15 @@ from windows.plot_window import PlotWindow
 
 
 class UI:
-    def __init__(self, input_path, store_path):
+    def __init__(self, store_path):
         self.app = QApplication(sys.argv)
-        self.input_path = input_path
         self.store_path = store_path
 
         
 
 
         # start window
-        self.start_window = StartWindow(self.input_path, self.store_path)
+        self.start_window = StartWindow(self.store_path)
         self.start_window.finished.connect(self.goto_plot)
         self.start_window.show()
 
@@ -31,6 +30,6 @@ class UI:
 
 
 if __name__ == '__main__':
-    ui = UI(os.path.join(os.getcwd(), 'resources', 'stocks.txt'), os.path.join(os.getcwd(), 'resources', 'CSV raw data'))
+    ui = UI(os.path.join(os.getcwd(), 'resources', 'CSV raw data'))
 
 

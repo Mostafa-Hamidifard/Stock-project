@@ -27,7 +27,7 @@ class PlotWindow(Form1, QMainWindow):
 
         self.raw_data = ExtractCompaniesFeatures(self.csv_path)
         company_names = self.raw_data.get_company_names()
-        company_typename = ["<FIRST>","<HIGH>","<LOW>","<CLOSE>","<VALUE>","<VOL>","<OPENINT>","<PER>","<OPEN>","<LAST>"]
+        company_typename = ["<FIRST>","<HIGH>","<LOW>","<CLOSE>","<VALUE>","<VOL>","<OPENINT>","<OPEN>","<LAST>"]
 
 
         for name in company_names:
@@ -62,6 +62,7 @@ class PlotWindow(Form1, QMainWindow):
     def checkbox_change(self, state):
         self.plot()
 
+    
     def plot(self):
 
 

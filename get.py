@@ -3,7 +3,6 @@ import os
 import pandas as pd
 import numpy as np
 from datetime import datetime
-# from Indicator.indicator import MovingAve
 
 
 
@@ -14,7 +13,7 @@ class ExtractCompaniesFeatures:
         self.all_compnies_data = {}
         for f in files:
             if f.endswith(".csv"):
-                df = pd.read_csv(os.path.join(data_path_folder, f))
+                df = pd.read_csv(os.path.join(data_path_folder, f))[::-1]
                 name = df["<TICKER>"].values[0]
                 self.all_compnies_data[name] = df
 
@@ -31,10 +30,7 @@ class ExtractCompaniesFeatures:
         dates = np.flip(df["<DTYYYYMMDD>"].values)
         return [datetime.strptime(str(i), '%Y%m%d').strftime('%Y %m %d') for i in dates ]
     
-    # def get_movingAverage(self, company_name, rate=4):
-    #     prices = self.get_raw_price(company_name)
-    #     mv = MovingAve(prices, rate)
-    #     sma = mv.calculate_mvaverage(prices, rate)
+   
 
     
 

@@ -2,7 +2,7 @@ import os
 import sys
 import time
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QHBoxLayout, QMessageBox, QFileDialog
-from PyQt5.QtGui import QPixmap, QPalette
+from PyQt5.QtGui import QPixmap, QPalette, QBrush, QImage
 from PyQt5.QtCore import QTimer, QThread, QObject, pyqtSignal, Qt
 from PyQt5 import uic
 
@@ -38,19 +38,7 @@ class StartWindow(Form2, QMainWindow):
         
         self.input_path = None
         self.store_path = store_path
-
-        background_path = os.path.join(os.getcwd(), "resources", "images.jpg")
-        # stylesheet = 'background-image: url("{}"); background-position: center;'.format(background_path)
-        # print(stylesheet)
-        # self.centralWidget().setStyleSheet(stylesheet)
-        pixmap = QPixmap()
-        pixmap.load(background_path)
-        pixmap = pixmap.scaled(self.size(), Qt.IgnoreAspectRatio)
-        palette = QPalette()
-        # palette.setBrush(QPalette.ColorGroup(), QPalette.ColorRole(), [QBrush, QColor, Qt.GlobalColor, QGradient])
-        # self.setPalette(palette)
-
-
+        
 
         # self.progress_bar.setOrientation()
         self.progress_bar.setRange(0, 100)
@@ -60,6 +48,22 @@ class StartWindow(Form2, QMainWindow):
 
         self.start.clicked.connect(self.start_clicked)
         self.browse.clicked.connect(self.browse_clicked)
+
+    def resizeEvent(self, event):
+        QMainWindow.resizeEvent(self, event)
+        self.set_background()
+
+    def showEvent(self, event):
+        QMainWindow.showEvent(self, event)
+        self.set_background()
+
+    def set_background(self):
+        background_path = os.path.join(os.getcwd(), "resources", "stock_NEW.png")
+        self.background.setAutoFillBackground(True)
+        palette = self.background.palette()
+        brush = QBrush(QImage(background_path))
+        palette.setBrush(QPalette.Window, QBrush(QPixmap(background_path).scaled(self.background.size(), Qt.IgnoreAspectRatio, Qt.SmoothTransformation)))
+        self.background.setPalette(palette)
 
         
 

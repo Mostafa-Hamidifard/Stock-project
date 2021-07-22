@@ -255,6 +255,13 @@ QComboBox::down-arrow:on { /* shift the arrow when popup is open */
            <string>trend</string>
           </property>
           <layout class="QGridLayout" name="gridLayout">
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_trend">
+             <property name="text">
+              <string>no status</string>
+             </property>
+            </widget>
+           </item>
            <item row="0" column="0">
             <widget class="QLineEdit" name="lineEdit_trend">
              <property name="placeholderText">
@@ -269,8 +276,34 @@ QComboBox::down-arrow:on { /* shift the arrow when popup is open */
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_trend">
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_filter">
+          <property name="title">
+           <string>filter</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="0" column="0">
+            <widget class="QLineEdit" name="lineEdit_filter">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="placeholderText">
+              <string>inequality</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="pushButton_filter">
+             <property name="text">
+              <string>Process</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="2">
+            <widget class="QLabel" name="label_filter">
              <property name="text">
               <string>no status</string>
              </property>

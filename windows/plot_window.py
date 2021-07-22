@@ -16,6 +16,7 @@ from Indicator.moving_average import MovingAverage
 from Indicator.bbolinger import BBolinger
 from Indicator.normalize import Normalize
 from detection.trend_detection import detect_trend
+from detection.filter_detection import StockFilter
 
 
 # class Worker(QObject):
@@ -89,6 +90,7 @@ class PlotWindow(Form1, QMainWindow):
         self.bb_rate.textEdited.connect(self.lineEdit_changed)
         self.bb_mult.textEdited.connect(self.lineEdit_changed)
         self.pushButton_trend.clicked.connect(self.trend_clicked)
+        self.pushButton_filter.clicked.connect(self.filter_clicked)
 
 
     def combobox_companyname_changed(self, str):
@@ -117,6 +119,24 @@ class PlotWindow(Form1, QMainWindow):
         company_data = self.raw_data.all_compnies_data[name]
         result, m, c = detect_trend(company_data, fromthis, -1, True, typename)
         self.label_trend.setText(result)
+
+    def filter_clicked(self):
+        filter_str = self.lineEdit_filter.text()
+        name = self.combobox_companyname.currentText()
+        typename = self.combobox_typeName.currentText()
+        if name == "" or typename == "":
+            return
+        company_data = self.raw_data.all_compnies_data[name]
+        try:
+            filter = StockFilter(company_data, filter_str, typename)
+            answer = "True" if filter.answer else "False"
+            self.label_filter.setText(answer)
+        except:
+            QMessageBox.critical(self, "ERROR", "Please enter a valid inequality")
+
+
+
+        
 
 
 

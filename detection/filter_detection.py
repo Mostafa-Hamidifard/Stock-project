@@ -3,16 +3,20 @@ import pandas as pd
 
 class StockFilter:
     def __init__(self, raw_data, filter_str, price_type="<CLOSE>"):
-        self.raw_data = raw_data
+        self.raw_data = raw_data[::-1]
         self.filter_str = filter_str
-        self.price = raw_data[price_type].values
-        self.volume = raw_data["<VOL>"].values
-        self.answer = self.process_filter()
+        self.price = self.raw_data[price_type].values
+        self.volume = self.raw_data["<VOL>"].values
+        try:
+            self.answer = self.process_filter()
+        except:
+            self.answer = "invalid"
+            raise ValueError
 
     def process_filter(self):
+
         temp = self.filter_str
         temp = temp.lower().strip()
-
         self.PindexL = []
         self.PindexR = []
         self.VindexL = []
@@ -23,7 +27,6 @@ class StockFilter:
         eq = temp.find("=")
         gt = temp.find(">")
         lt = temp.find("<")
-
         if ge != -1:
             self.tl = txt.split(">=")[0]
             self.ql = self.tl.split("]")

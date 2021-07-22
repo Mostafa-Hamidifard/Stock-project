@@ -1,13 +1,13 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from indicator import Indicator
+from Indicator.indicator import Indicator
 from datetime import datetime
 import matplotlib.ticker as ticker
 
 
 class MovingAverage(Indicator):
-    def __init__(self, raw_data, rate, price_type="<LAST>"):
+    def __init__(self, raw_data, rate=12, price_type="<LAST>"):
         Indicator.__init__(self, raw_data)
         self.dates = self.raw_data['<DTYYYYMMDD>'].values
         self.price = self.raw_data[price_type].values

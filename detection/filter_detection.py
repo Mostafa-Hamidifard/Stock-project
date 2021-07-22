@@ -14,7 +14,7 @@ class StockFilter:
             raise ValueError
 
     def process_filter(self):
-
+        txt = self.filter_str
         temp = self.filter_str
         temp = temp.lower().strip()
         self.PindexL = []

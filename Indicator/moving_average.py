@@ -6,7 +6,7 @@ from Indicator.indicator import Indicator
 
 
 class MovingAverage(Indicator):
-    def __init__(self, raw_data, rate, price_type="<LAST>"):
+    def __init__(self, raw_data, rate=12, price_type="<LAST>"):
         Indicator.__init__(self, raw_data[price_type].values)
         self.name = str(raw_data["<TICKER>"][0])
         self.rate = rate

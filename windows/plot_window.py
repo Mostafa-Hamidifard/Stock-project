@@ -1,8 +1,9 @@
 import os
 import sys
 import time
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QVBoxLayout, QMessageBox
 from PyQt5.QtCore import QTimer, QThread, QObject, pyqtSignal
+from PyQt5.QtGui import QIntValidator
 from PyQt5 import uic
 import matplotlib
 matplotlib.use("Qt5Agg")
@@ -14,6 +15,25 @@ from Indicator.macd import MACD
 from Indicator.moving_average import MovingAverage
 from Indicator.bbolinger import BBolinger
 from Indicator.normalize import Normalize
+from detection.trend_detection import detect_trend
+
+
+# class Worker(QObject):
+#     finished = pyqtSignal(str)
+
+#     def __init__(self, input_file_path, store_file_path):
+#         QObject.__init__(self)
+#         self.input_file_path = input_file_path
+#         self.store_file_path = store_file_path
+
+#     def run(self):
+#         try:
+#             start_downloading_data_and_store(self.input_file_path, self.store_file_path)
+#             self.finished.emit("OK")
+        
+#         except:
+#             self.finished.emit("ERROR")
+
 
 
 Form1 = uic.loadUiType(os.path.join(os.getcwd(), 'resources', 'plot_window.ui'))[0]
@@ -46,13 +66,30 @@ class PlotWindow(Form1, QMainWindow):
         plot_layout.addWidget(self.canvas)
         plot_layout.addWidget(self.navi)
 
+        self.movingaverage_rate.setValidator(QIntValidator(1, 999))
+        self.macd_slow.setValidator(QIntValidator(1, 999))
+        self.macd_fast.setValidator(QIntValidator(1, 999))
+        self.macd_smooth.setValidator(QIntValidator(1, 999))
+        self.bb_rate.setValidator(QIntValidator(1, 999))
+        self.bb_mult.setValidator(QIntValidator(1, 999))
+        self.lineEdit_trend.setValidator(QIntValidator(1, 99))
+
+
+
         self.combobox_companyname.currentTextChanged.connect(self.combobox_companyname_changed)
         self.combobox_typeName.currentTextChanged.connect(self.combobox_typename_changed)
         self.simple_checkbox.stateChanged.connect(self.checkbox_change)
         self.bb_checkbox.stateChanged.connect(self.checkbox_change)
         self.macd_checkbox.stateChanged.connect(self.checkbox_change)
         self.movingaverage_checkbox.stateChanged.connect(self.checkbox_change)
-        
+        self.movingaverage_rate.textEdited.connect(self.lineEdit_changed)
+        self.macd_slow.textEdited.connect(self.lineEdit_changed)
+        self.macd_fast.textEdited.connect(self.lineEdit_changed)
+        self.macd_smooth.textEdited.connect(self.lineEdit_changed)
+        self.bb_rate.textEdited.connect(self.lineEdit_changed)
+        self.bb_mult.textEdited.connect(self.lineEdit_changed)
+        self.pushButton_trend.clicked.connect(self.trend_clicked)
+
 
     def combobox_companyname_changed(self, str):
         self.plot()
@@ -62,6 +99,26 @@ class PlotWindow(Form1, QMainWindow):
 
     def checkbox_change(self, state):
         self.plot()
+    
+    def lineEdit_changed(self, text):
+        self.plot()
+    
+    def trend_clicked(self):
+        fromthis = int(self.lineEdit_trend.text()) if self.lineEdit_trend.text() != '' else -1
+        if fromthis == -1:
+            self.label_trend.setText("no status")
+            QMessageBox.critical(self, "ERROR", "Please enter a valid number")
+            return
+
+        name = self.combobox_companyname.currentText()
+        typename = self.combobox_typeName.currentText()
+        if name == "" or typename == "":
+            return
+        company_data = self.raw_data.all_compnies_data[name]
+        result, m, c = detect_trend(company_data, fromthis, -1, True, typename)
+        self.label_trend.setText(result)
+
+
 
     
     def plot(self):
@@ -79,15 +136,21 @@ class PlotWindow(Form1, QMainWindow):
             normal.plot(self.ax)
 
         if self.bb_checkbox.isChecked():
-            bb = BBolinger(company_data, typename)
+            rate = int(self.bb_rate.text()) if self.bb_rate.text() != '' else 20
+            mult = int(self.bb_mult.text()) if self.bb_mult.text() != '' else 2
+            bb = BBolinger(company_data, typename, rate, mult)
             bb.plot(self.ax)
 
         if self.macd_checkbox.isChecked():
-            mac = MACD(company_data, typename)
+            slow = int(self.macd_slow.text()) if self.macd_slow.text() != '' else 26
+            fast = int(self.macd_fast.text()) if self.macd_fast.text() != '' else 12
+            smooth = int(self.macd_smooth.text()) if self.macd_smooth.text() != '' else 9
+            mac = MACD(company_data, typename, slow, fast, smooth)
             mac.plot(self.ax)
         
         if self.movingaverage_checkbox.isChecked():
-            mv = MovingAverage(company_data, 12, typename)
+            rate = int(self.movingaverage_rate.text()) if self.movingaverage_rate.text() != '' else 12
+            mv = MovingAverage(company_data, rate, typename)
             mv.plot(self.ax)
 
         self.fig.canvas.draw()

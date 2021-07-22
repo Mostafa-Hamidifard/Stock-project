@@ -63,7 +63,7 @@ class MACD(Indicator):
 
 if __name__ == '__main__':
     df = pd.read_csv(
-        "E:\\ap_final\\Stock-project\\CSV raw data\\2400322364771558.csv")[::-1]
+        "E:\\ap_final\\Stock-project\\resources\\CSV raw data\\2400322364771558.csv")[::-1]
 
     # sample code
     macd = MACD(df)

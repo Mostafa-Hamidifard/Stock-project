@@ -58,7 +58,7 @@ class StartWindow(Form2, QMainWindow):
         self.set_background()
 
     def set_background(self):
-        background_path = os.path.join(os.getcwd(), "resources", "stock_NEW.png")
+        background_path = os.path.join(os.getcwd(), "resources", "stock_NEW1.png")
         self.background.setAutoFillBackground(True)
         palette = self.background.palette()
         brush = QBrush(QImage(background_path))

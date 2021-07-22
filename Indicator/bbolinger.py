@@ -1,9 +1,10 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
 from indicator import Indicator
 import math
+from datetime import datetime
+import matplotlib.ticker as ticker
 
 
 def get_sma(raw_data, rate):
@@ -44,15 +45,29 @@ class BBolinger(Indicator):
         self.bollinger_up = self.sma + self.std * mult
         self.bollinger_down = self.sma - self.std * mult
 
+    def get_dates(self):
+        df = self.raw_data
+        dates = df["<DTYYYYMMDD>"].values
+        return [datetime.strptime(str(i), '%Y%m%d').date() for i in dates]
+
     def plot(self, ax):
+        x_value = self.get_dates()
         ax.set_title(self.name, fontsize=7)
-        lin1, = ax.plot(self.sma, linewidth=1, color='red', alpha=0.5)
+        #    for scalable date formatted x axis
+        N = len(self.price)
+        ind = np.arange(N)
+
+        def format_date(x, pos=None):
+            thisind = np.clip(int(x + 0.5), 0, N - 1)
+            plt.xticks(rotation=10)
+            return x_value[thisind].strftime('%y-%m-%d')
+        ax.xaxis.set_major_formatter(ticker.FuncFormatter(format_date))
+
+        lin1, = ax.plot(ind, self.sma, linewidth=1, color='red', alpha=0.5)
         lin1.set_label(f"BB's SMA ({self.rate} days)")
         ax.legend(fontsize='xx-small')
-        ax.fill_between(
-            np.linspace(0, self.bollinger_up.size, self.bollinger_up.size),
-            self.bollinger_down,
-            self.bollinger_up, color="cyan", interpolate=True, edgecolor='blue', alpha=0.5)
+        ax.fill_between(ind, self.bollinger_down, self.bollinger_up,
+                        color="cyan", interpolate=True, edgecolor='blue', alpha=0.5)
         ax.xaxis.set_tick_params(labelsize='xx-small')
         ax.yaxis.set_tick_params(labelsize='xx-small')
 

@@ -52,6 +52,13 @@
           </widget>
          </item>
          <item>
+          <widget class="QCheckBox" name="normalize_checkbox">
+           <property name="text">
+            <string>normalize</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QCheckBox" name="simple_checkbox">
            <property name="text">
             <string>simple</string>

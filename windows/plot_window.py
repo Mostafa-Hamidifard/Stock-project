@@ -13,6 +13,7 @@ from get import ExtractCompaniesFeatures
 from Indicator.macd import MACD
 from Indicator.moving_average import MovingAverage
 from Indicator.bbolinger import BBolinger
+from Indicator.normalize import Normalize
 
 
 Form1 = uic.loadUiType(os.path.join(os.getcwd(), 'resources', 'plot_window.ui'))[0]
@@ -64,8 +65,6 @@ class PlotWindow(Form1, QMainWindow):
 
     
     def plot(self):
-
-
         name = self.combobox_companyname.currentText()
         typename = self.combobox_typeName.currentText()
         if name == "" or typename == "":
@@ -76,7 +75,8 @@ class PlotWindow(Form1, QMainWindow):
         company_data = self.raw_data.all_compnies_data[name]
         
         if self.simple_checkbox.isChecked():
-            pass
+            normal = Normalize(company_data, typename)
+            normal.plot(self.ax)
 
         if self.bb_checkbox.isChecked():
             bb = BBolinger(company_data, typename)

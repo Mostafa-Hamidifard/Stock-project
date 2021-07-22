@@ -2,7 +2,8 @@ import os
 import sys
 import time
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QHBoxLayout, QMessageBox, QFileDialog
-from PyQt5.QtCore import QTimer, QThread, QObject, pyqtSignal
+from PyQt5.QtGui import QPixmap, QPalette
+from PyQt5.QtCore import QTimer, QThread, QObject, pyqtSignal, Qt
 from PyQt5 import uic
 
 from receiving_and_cleaning.receive_data import start_downloading_data_and_store
@@ -38,10 +39,18 @@ class StartWindow(Form2, QMainWindow):
         self.input_path = None
         self.store_path = store_path
 
-        # background_path = os.path.join(os.getcwd(), "resources", "image.jpg")
+        background_path = os.path.join(os.getcwd(), "resources", "images.jpg")
         # stylesheet = 'background-image: url("{}"); background-position: center;'.format(background_path)
         # print(stylesheet)
         # self.centralWidget().setStyleSheet(stylesheet)
+        pixmap = QPixmap()
+        pixmap.load(background_path)
+        pixmap = pixmap.scaled(self.size(), Qt.IgnoreAspectRatio)
+        palette = QPalette()
+        # palette.setBrush(QPalette.ColorGroup(), QPalette.ColorRole(), [QBrush, QColor, Qt.GlobalColor, QGradient])
+        # self.setPalette(palette)
+
+
 
         # self.progress_bar.setOrientation()
         self.progress_bar.setRange(0, 100)

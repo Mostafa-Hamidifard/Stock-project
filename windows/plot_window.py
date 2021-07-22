@@ -1,7 +1,7 @@
 import os
 import sys
 import time
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QVBoxLayout, QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QVBoxLayout, QMessageBox, QFileDialog
 from PyQt5.QtCore import QTimer, QThread, QObject, pyqtSignal
 from PyQt5.QtGui import QIntValidator
 from PyQt5 import uic
@@ -91,6 +91,7 @@ class PlotWindow(Form1, QMainWindow):
         self.bb_mult.textEdited.connect(self.lineEdit_changed)
         self.pushButton_trend.clicked.connect(self.trend_clicked)
         self.pushButton_filter.clicked.connect(self.filter_clicked)
+        self.pushButton_saveas.clicked.connect(self.saveAs_clicked)
 
 
     def combobox_companyname_changed(self, str):
@@ -133,6 +134,13 @@ class PlotWindow(Form1, QMainWindow):
             self.label_filter.setText(answer)
         except:
             QMessageBox.critical(self, "ERROR", "Please enter a valid inequality")
+        
+    def saveAs_clicked(self):
+        path = QFileDialog.getExistingDirectory(self, "select a file", os.getcwd())
+        if path == "":
+            QMessageBox.critical(self, "ERROR", "Please select a directory")
+
+        print(path)
 
 
 

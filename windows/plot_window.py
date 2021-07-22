@@ -15,25 +15,11 @@ from Indicator.macd import MACD
 from Indicator.moving_average import MovingAverage
 from Indicator.bbolinger import BBolinger
 from Indicator.normalize import Normalize
+from Indicator.simple import Simple
 from detection.trend_detection import detect_trend
 from detection.filter_detection import StockFilter
 
 
-# class Worker(QObject):
-#     finished = pyqtSignal(str)
-
-#     def __init__(self, input_file_path, store_file_path):
-#         QObject.__init__(self)
-#         self.input_file_path = input_file_path
-#         self.store_file_path = store_file_path
-
-#     def run(self):
-#         try:
-#             start_downloading_data_and_store(self.input_file_path, self.store_file_path)
-#             self.finished.emit("OK")
-        
-#         except:
-#             self.finished.emit("ERROR")
 
 
 
@@ -80,6 +66,7 @@ class PlotWindow(Form1, QMainWindow):
         self.combobox_companyname.currentTextChanged.connect(self.combobox_companyname_changed)
         self.combobox_typeName.currentTextChanged.connect(self.combobox_typename_changed)
         self.simple_checkbox.stateChanged.connect(self.checkbox_change)
+        self.normalize_checkbox.stateChanged.connect(self.checkbox_change)
         self.bb_checkbox.stateChanged.connect(self.checkbox_change)
         self.macd_checkbox.stateChanged.connect(self.checkbox_change)
         self.movingaverage_checkbox.stateChanged.connect(self.checkbox_change)
@@ -143,11 +130,6 @@ class PlotWindow(Form1, QMainWindow):
         print(path)
 
 
-
-        
-
-
-
     
     def plot(self):
         name = self.combobox_companyname.currentText()
@@ -160,6 +142,10 @@ class PlotWindow(Form1, QMainWindow):
         company_data = self.raw_data.all_compnies_data[name]
         
         if self.simple_checkbox.isChecked():
+            simple = Simple(company_data, typename)
+            simple.plot(self.ax)
+        
+        if self.normalize_checkbox.isChecked():
             normal = Normalize(company_data, typename)
             normal.plot(self.ax)
 

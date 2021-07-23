@@ -16,6 +16,7 @@ class PDF(FPDF):
 
     def __init__(self, company_data_list, store_path, filter_string=" ", trend_from=30, howmany=60, initial_header_str="Stock-project Report"):
         FPDF.__init__(self)
+        print('start')
         self.header_str = initial_header_str
         self.store_path = store_path
         self.filter_string = filter_string
@@ -34,7 +35,8 @@ class PDF(FPDF):
             self.print_company(
                 company_data)
         self.print_lastpage(company_data_list)
-        self.output('report.pdf', 'F')
+        self.output(os.path.join(store_path, 'report.pdf'), 'F')
+        print('done')
 
     def print_lastpage(self, companies):
         self.header_str = 'Comparisons'

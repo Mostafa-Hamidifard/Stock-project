@@ -125,8 +125,23 @@ class PlotWindow(Form1, QMainWindow):
         if path == "":
             QMessageBox.critical(self, "ERROR", "Please select a directory")
             return
-        pdf = PDF(list(self.raw_data.all_compnies_data.values()),
-                  path, self.lineEdit_filter.text())
+
+        class mythread(QThread):
+
+            def __init__(self, parent, all, path, fill):
+                super(mythread, self).__init__(parent)
+                self.all = all
+                self.fill = fill
+                self.path = path
+
+            def run(self):
+                pdf = PDF(self.all,
+                          self.path, self.fill)
+        all = list(self.raw_data.all_compnies_data.values())
+        fill = self.lineEdit_filter.text()
+        self.thread = mythread(self, all, path, fill)
+        self.thread.start()
+
         print(path)
 
     def plot(self):

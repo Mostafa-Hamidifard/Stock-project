@@ -55,7 +55,7 @@ class PlotWindow(Form1, QMainWindow):
         self.macd_smooth.setValidator(QIntValidator(1, 999))
         self.bb_rate.setValidator(QIntValidator(1, 999))
         self.bb_mult.setValidator(QIntValidator(1, 999))
-        self.lineEdit_trend.setValidator(QIntValidator(1, 99))
+        self.lineEdit_trend.setValidator(QIntValidator(1, 999))
 
         self.combobox_companyname.currentTextChanged.connect(
             self.combobox_companyname_changed)
@@ -117,7 +117,7 @@ class PlotWindow(Form1, QMainWindow):
             self.label_filter.setText(answer)
         except:
             QMessageBox.critical(
-                self, "ERROR", "Please enter a valid inequality")
+                self, "ERROR", "Please enter a valid expression")
 
     def saveAs_clicked(self):
         path = QFileDialog.getExistingDirectory(

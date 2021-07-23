@@ -136,8 +136,11 @@ class PDF(FPDF):
             p1 = os.path.join(p1, f"{name}__{key}.png")
             paths[key] = p1
             fig.savefig(p1, format='PNG')
+            plt.cla()
             plt.clf()
+            plt.close()
         for key, image_path in paths.items():
+            self.ln(4)
             self.cell(w=0, h=10, txt=f'{key} Chart:', ln=1)
             self.image(image_path, w=185, type='PNG')
             self.ln(4)

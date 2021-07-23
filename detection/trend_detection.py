@@ -12,11 +12,11 @@ def detect_trend(raw_data, fromthis, tothis=-1, end=False, price_type="<LAST>"):
     '''
     inputs: raw_data as data frame
             fromthis -> from this position untill end (usually negative)
-            price_type='<CLOSE>'
+            price_type='<LAST>'
     returns : detection(as string), m(slope), c(constant)
     '''
     if end:
-        price = raw_data[price_type].values[fromthis:]
+        price = raw_data[price_type].values[-fromthis:]
         length = len(raw_data) - fromthis
     else:
         price = raw_data[price_type].values[fromthis:tothis]

@@ -2,7 +2,7 @@ import pandas as pd
 
 
 class StockFilter:
-    def __init__(self, raw_data, filter_str, price_type="<CLOSE>"):
+    def __init__(self, raw_data, filter_str, price_type="<LAST>"):
         self.raw_data = raw_data[::-1]
         self.filter_str = filter_str
         self.price = self.raw_data[price_type].values

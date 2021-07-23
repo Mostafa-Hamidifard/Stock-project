@@ -45,7 +45,7 @@ class PlotWindow(Form1, QMainWindow):
             self.combobox_typeName.addItem(typename)
         
 
-        self.fig = Figure()
+        self.fig = Figure(dpi=150)
         self.ax = self.fig.add_axes([0.1, 0.1, 0.8, 0.8])
         self.canvas = FigureCanvas(self.fig)
         self.navi = NavigationToolbar(self.canvas, self)
@@ -126,7 +126,9 @@ class PlotWindow(Form1, QMainWindow):
         path = QFileDialog.getExistingDirectory(self, "select a file", os.getcwd())
         if path == "":
             QMessageBox.critical(self, "ERROR", "Please select a directory")
-
+        
+        # pdf = PDF(list(self.all_compnies_data.values()), path)
+ 
         print(path)
 
 

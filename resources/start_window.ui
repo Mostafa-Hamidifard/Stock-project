@@ -19,50 +19,52 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <layout class="QGridLayout" name="gridLayout" rowstretch="6,1,1">
+     <layout class="QGridLayout" name="gridLayout" rowstretch="6,0,0,0">
       <item row="0" column="0" colspan="2">
        <widget class="QWidget" name="background" native="true"/>
       </item>
-      <item row="1" column="0">
-       <widget class="QProgressBar" name="progress_bar">
+      <item row="1" column="1">
+       <widget class="QPushButton" name="browse">
         <property name="styleSheet">
-         <string notr="true">QProgressBar {
-    border: 2px solid grey;
-    border-radius: 5px;
-    text-align: center;
+         <string notr="true">QPushButton
+{
+height: 30px;
+padding: 10px;
+background-color: white;
+border: 1px solid white;
+border-radius: 15px;
+color: black;
+font: 18pt &quot;Arial&quot;;
 }
-QProgressBar::chunk {
-    background-color: #FF00BB;
-    width: 10px;
-    margin: 0.5px;
+QPushButton:hover
+{
+height: 30px;
+padding: 10px;
+color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
+background: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 purple, stop:1 #9933ff);
+border: 1px solid white;
+border-radius: 15px;
+color: white;
+font: 18pt &quot;Arial&quot;;
+}
+QPushButton:pressed
+{
+height: 30px;
+padding: 10px;
+color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
+background: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #9933ff, stop:1 purple);
+border: 1px solid white;
+border-radius: 15px;
+color: white;
+font: 18pt &quot;Arial&quot;;
 }</string>
         </property>
-        <property name="value">
-         <number>24</number>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLabel" name="browse_label">
-        <property name="styleSheet">
-         <string notr="true">QLabel {
-	border: 0px solid #298DFF; 
-	border-radius: 3px; 
-	background-color: #F2F2F2; 
-	color: black; 
-	font-family: &quot;Microsoft YaHei&quot;; 
-	font-size: 8pt; 
-	qproperty-alignment: AlignCenter;
-}
-
-</string>
-        </property>
         <property name="text">
-         <string>no file</string>
+         <string>Browse</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
+      <item row="3" column="1">
        <widget class="QPushButton" name="start">
         <property name="styleSheet">
          <string notr="true">QPushButton
@@ -103,44 +105,42 @@ font: 18pt &quot;Arial&quot;;
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QPushButton" name="browse">
+      <item row="1" column="0">
+       <widget class="QLabel" name="browse_label">
         <property name="styleSheet">
-         <string notr="true">QPushButton
-{
-height: 30px;
-padding: 10px;
-background-color: white;
-border: 1px solid white;
-border-radius: 15px;
-color: black;
-font: 18pt &quot;Arial&quot;;
+         <string notr="true">QLabel {
+	border: 0px solid #298DFF; 
+	border-radius: 3px; 
+	background-color: #F2F2F2; 
+	color: black; 
+	font-family: &quot;Microsoft YaHei&quot;; 
+	font-size: 8pt; 
+	qproperty-alignment: AlignCenter;
 }
-QPushButton:hover
-{
-height: 30px;
-padding: 10px;
-color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
-background: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 purple, stop:1 #9933ff);
-border: 1px solid white;
-border-radius: 15px;
-color: white;
-font: 18pt &quot;Arial&quot;;
-}
-QPushButton:pressed
-{
-height: 30px;
-padding: 10px;
-color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));
-background: qlineargradient( x1:0 y1:0, x2:0 y2:1, stop:0 #9933ff, stop:1 purple);
-border: 1px solid white;
-border-radius: 15px;
-color: white;
-font: 18pt &quot;Arial&quot;;
-}</string>
+
+</string>
         </property>
         <property name="text">
-         <string>Browse</string>
+         <string>no file</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QProgressBar" name="progress_bar">
+        <property name="styleSheet">
+         <string notr="true">QProgressBar {
+    border: 2px solid grey;
+    border-radius: 5px;
+    text-align: center;
+}
+QProgressBar::chunk {
+    background-color: #FF00BB;
+    width: 10px;
+    margin: 0.5px;
+}</string>
+        </property>
+        <property name="value">
+         <number>24</number>
         </property>
        </widget>
       </item>

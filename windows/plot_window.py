@@ -17,6 +17,7 @@ from PyQt5.QtCore import QTimer, QThread, QObject, pyqtSignal
 from PyQt5.QtGui import QIntValidator
 from PyQt5 import uic
 import matplotlib
+from pdf import PDF
 matplotlib.use("Qt5Agg")
 
 
@@ -42,7 +43,7 @@ class PlotWindow(Form1, QMainWindow):
         for typename in company_typename:
             self.combobox_typeName.addItem(typename)
 
-        self.fig = Figure(dpi=150)
+        self.fig = Figure(dpi=150, edgecolor='k')
         self.ax = self.fig.add_axes([0.1, 0.1, 0.8, 0.8])
         self.canvas = FigureCanvas(self.fig)
         self.navi = NavigationToolbar(self.canvas, self)
@@ -125,7 +126,10 @@ class PlotWindow(Form1, QMainWindow):
             self, "select a file", os.getcwd())
         if path == "":
             QMessageBox.critical(self, "ERROR", "Please select a directory")
-
+            return
+        
+        pdf = PDF(list(self.raw_data.all_compnies_data.values()), path, self.lineEdit_filter.text())
+ 
         print(path)
 
     def plot(self):
@@ -164,9 +168,9 @@ class PlotWindow(Form1, QMainWindow):
             mac.plot(self.ax)
 
         if self.movingaverage_checkbox.isChecked():
-            rate = int(self.movingaverage_rate.text()
-                       ) if self.movingaverage_rate.text() != '' else 12
+            rate = int(self.movingaverage_rate.text()) if self.movingaverage_rate.text() != '' else 12
             mv = MovingAverage(company_data, rate, typename)
             mv.plot(self.ax)
 
+        self.ax.grid(b=True)
         self.fig.canvas.draw()

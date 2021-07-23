@@ -10,8 +10,6 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import os
-import sys
-import time
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMainWindow, QVBoxLayout, QMessageBox, QFileDialog
 from PyQt5.QtCore import QTimer, QThread, QObject, pyqtSignal
 from PyQt5.QtGui import QIntValidator
@@ -127,9 +125,8 @@ class PlotWindow(Form1, QMainWindow):
         if path == "":
             QMessageBox.critical(self, "ERROR", "Please select a directory")
             return
-        
-        pdf = PDF(list(self.raw_data.all_compnies_data.values()), path, self.lineEdit_filter.text())
- 
+        pdf = PDF(list(self.raw_data.all_compnies_data.values()),
+                  path, self.lineEdit_filter.text())
         print(path)
 
     def plot(self):
@@ -168,7 +165,8 @@ class PlotWindow(Form1, QMainWindow):
             mac.plot(self.ax)
 
         if self.movingaverage_checkbox.isChecked():
-            rate = int(self.movingaverage_rate.text()) if self.movingaverage_rate.text() != '' else 12
+            rate = int(self.movingaverage_rate.text()
+                       ) if self.movingaverage_rate.text() != '' else 12
             mv = MovingAverage(company_data, rate, typename)
             mv.plot(self.ax)
 
